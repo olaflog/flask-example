@@ -7,7 +7,7 @@ node {
          
      }
      stage('Push image') {
-         docker.withRegistry('https://ec2-43-202-0-81.ap-northeast-2.compute.amazonaws.com/', 'harbor-reg') {
+         docker.withRegistry('https://730135569722.dkr.ecr.ap-northeast-2.amazonaws.com/flask-example-apps/', 'Jenkins-ECR') {
              app.push("${env.BUILD_NUMBER}")
              app.push("latest")
          }
