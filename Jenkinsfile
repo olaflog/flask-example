@@ -3,7 +3,7 @@ node {
          checkout scm
      }
      stage('Build image') {
-         app = docker.build("flask-example-apps")
+         app = docker.build("flaskapp")
          
      }
      stage('Push image') {
