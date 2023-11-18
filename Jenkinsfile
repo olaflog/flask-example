@@ -3,11 +3,11 @@ node {
          checkout scm
      }
      stage('Build image') {
-         app = docker.build("flaskapp")
+         app = docker.build("admin/flask-example")
          
      }
      stage('Push image') {
-         docker.withRegistry('https://730135569722.dkr.ecr.ap-northeast-2.amazonaws.com/flaskapp/', 'ecr:ap-northeast-2:jenkins-ecr-cred') {
+         docker.withRegistry('https://ec2-43-202-0-81.ap-northeast-2.compute.amazonaws.com/', 'harbor-reg') {
              app.push("${env.BUILD_NUMBER}")
              app.push("latest")
          }
