@@ -2,14 +2,18 @@ node {
      stage('Clone repository') {
          checkout scm
      }
+
      stage('Build image') {
-         app = docker.build("admin/flask-example")
-         
+         app = docker.build("730135569722.dkr.ecr.ap-northeast-2.amazonaws.com/fiscdlab")
      }
+
      stage('Push image') {
-         docker.withRegistry('https://ec2-43-202-0-81.ap-northeast-2.compute.amazonaws.com/', 'harbor-reg') {
+         sh 'rm  ~/.dockercfg || true'
+         sh 'rm ~/.docker/config.json || true'
+         
+         docker.withRegistry('https://730135569722.dkr.ecr.ap-northeast-2.amazonaws.com', 'ecr:ap-northeast-2:jenkins-ecr-cred') {
              app.push("${env.BUILD_NUMBER}")
              app.push("latest")
-         }
      }
+  }
 }
