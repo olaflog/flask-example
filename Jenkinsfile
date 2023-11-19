@@ -37,8 +37,6 @@ pipeline {
         stage('Update Kubernetes Manifests') {
             steps {
                 script {
-                    // 'app' 변수를 이 스크립트 내에서 사용 가능하도록 수정
-                    def app = docker.image("${IMAGE_REGISTRY_ACCOUNT}/${IMAGE_NAME}:${env.BUILD_NUMBER}")
                     sh '''
                         git clone -b main https://github.com/olaflog/flask-example-apps.git
                         cd flask-example-apps/flask-example-deploy
