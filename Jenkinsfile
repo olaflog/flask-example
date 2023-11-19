@@ -4,6 +4,8 @@ pipeline {
     environment {
         IMAGE_REGISTRY_ACCOUNT = "ec2-13-124-102-170.ap-northeast-2.compute.amazonaws.com/fiscicdlab"
         IMAGE_NAME = "flask-example"
+        IMAGE_TAG = "r20231120-002"
+
     }
 
     stages {
@@ -27,7 +29,7 @@ pipeline {
                 script {
                     docker.withRegistry('https://ec2-13-124-102-170.ap-northeast-2.compute.amazonaws.com/', 'harbor-reg') {
                         // 'app' 변수를 이 스크립트 내에서 사용 가능하도록 수정
-                        app.push("r20231120-001")
+                        app.push("${IMAGE_TAG}")
                         app.push("latest")
                     }
                 }
@@ -38,6 +40,7 @@ pipeline {
             steps {
                 script {
                     sh '''
+                        rm -rf flask-example-apps
                         git clone -b main https://github.com/olaflog/flask-example-apps.git
                         cd flask-example-apps/flask-example-deploy
                         sed -i "s/image:.*/image: ${IMAGE_REGISTRY_ACCOUNT}\\/${IMAGE_NAME}:${env.BUILD_NUMBER}/g" deployment.yaml
