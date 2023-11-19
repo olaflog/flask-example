@@ -18,14 +18,8 @@ pipeline {
             }
         }
 
-        stage('Pull image from Harbor') {
-            steps {
-                script {
-                    // Harbor 레지스트리에서 이미지를 가져옴
-                    docker.image("${HARBOR_REGISTRY}/${HARBOR_PROJECT}/${IMAGE_NAME}:${IMAGE_TAG}").pull()
-                }
-            }
-        }
+        stage('Build image') {
+         app = docker.build("fiscicdlab/flask-example")
 
         stage('Push image') {
             steps {
