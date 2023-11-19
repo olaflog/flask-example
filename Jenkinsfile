@@ -8,7 +8,6 @@ pipeline {
         // Harbor 레지스트리 관련 정보
         HARBOR_REGISTRY = 'https://ec2-13-124-102-170.ap-northeast-2.compute.amazonaws.com'
         HARBOR_PROJECT = 'fiscicdlab'
-        IMAGE_NAME = 'flask-example'
         IMAGE_TAG = 'latest' // 또는 다른 Harbor에 이미 존재하는 태그
     }
 
@@ -19,7 +18,6 @@ pipeline {
             }
         }
 
-    stages {
         stage('Pull image from Harbor') {
             steps {
                 script {
@@ -28,7 +26,7 @@ pipeline {
                 }
             }
         }
-    }
+
         stage('Push image') {
             steps {
                 script {
@@ -59,15 +57,6 @@ pipeline {
                     '''
                 }
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Build and deployment successful!'
-        }
-        failure {
-            echo 'Build or deployment failed!'
         }
     }
 }
