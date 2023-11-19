@@ -20,6 +20,7 @@ pipeline {
 
         stage('Build image') {
          app = docker.build("fiscicdlab/flask-example")
+        }
 
         stage('Push image') {
             steps {
