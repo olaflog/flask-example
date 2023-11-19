@@ -47,8 +47,8 @@ pipeline {
                         git add deployment.yaml
                         git config --global user.name olaflog
                         git config --global user.email olaflog@elsa.anna
-                        git commit -m "Jenkins Build Number - ${IMAGE_TAG}"
-                        git push origin main`
+                        git commit -m 'Jenkins Build Number - ${IMAGE_TAG}'
+                        git push origin main
                     '''
                 }
             }
