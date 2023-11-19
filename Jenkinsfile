@@ -1,57 +1,15 @@
-pipeline {
-    agent any
-
-    environment {
-        IMAGE_REGISTRY_ACCOUNT = "ec2-13-124-102-170.ap-northeast-2.compute.amazonaws.com/fiscicdlab"
-        IMAGE_NAME = "flask-example"
-
-        // Harbor 레지스트리 관련 정보
-        HARBOR_REGISTRY = 'https://ec2-13-124-102-170.ap-northeast-2.compute.amazonaws.com'
-        HARBOR_PROJECT = 'fiscicdlab'
-        IMAGE_TAG = 'latest' // 또는 다른 Harbor에 이미 존재하는 태그
-    }
-
-    stages {
-        stage('Clone repository') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Build image') {
-            app = docker.build("fiscicdlab/flask-example")
-        }
-
-        stage('Push image') {
-            steps {
-                script {
-                    docker.withRegistry('https://ec2-13-124-102-170.ap-northeast-2.compute.amazonaws.com/', 'harbor-reg') {
-                        // 'app' 변수를 이 스크립트 내에서 사용 가능하도록 수정
-                        def app = docker.image("${IMAGE_REGISTRY_ACCOUNT}/${IMAGE_NAME}:${env.BUILD_NUMBER}")
-                        app.push()
-                        app.push("latest")
-                    }
-                }
-            }
-        }
-
-        stage('Update Kubernetes Manifests') {
-            steps {
-                script {
-                    // 'app' 변수를 이 스크립트 내에서 사용 가능하도록 수정
-                    def app = docker.image("${IMAGE_REGISTRY_ACCOUNT}/${IMAGE_NAME}:${env.BUILD_NUMBER}")
-                    sh '''
-                        git clone -b main https://github.com/olaflog/flask-example-apps.git
-                        cd flask-example-apps/flask-example-deploy
-                        sed -i "s/image:.*/image: ${IMAGE_REGISTRY_ACCOUNT}\\/${IMAGE_NAME}:${env.BUILD_NUMBER}/g" deployment.yaml
-                        git add deployment.yaml
-                        git config --global user.name olaflog
-                        git config --global user.email olaflog@elsa.anna
-                        git commit -m "Jenkins Build Number - ${env.BUILD_NUMBER}"
-                        git push origin main
-                    '''
-                }
-            }
-        }
-    }
+node {
+     stage('Clone repository') {
+         checkout scm
+     }
+     stage('Build image') {
+         app = docker.build("fiscicdlab/flask-example")
+         
+     }
+     stage('Push image') {
+         docker.withRegistry('https://ec2-13-124-102-170.ap-northeast-2.compute.amazonaws.com/', 'harbor-reg') {
+             app.push("${env.BUILD_NUMBER}")
+             app.push("latest")
+         }
+     }
 }
