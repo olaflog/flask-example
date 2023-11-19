@@ -4,6 +4,12 @@ pipeline {
     environment {
         IMAGE_REGISTRY_ACCOUNT = "ec2-13-124-102-170.ap-northeast-2.compute.amazonaws.com/fiscicdlab"
         IMAGE_NAME = "flask-example"
+
+        // Harbor 레지스트리 관련 정보
+        HARBOR_REGISTRY = 'https://ec2-13-124-102-170.ap-northeast-2.compute.amazonaws.com'
+        HARBOR_PROJECT = 'fiscicdlab'
+        IMAGE_NAME = 'flask-example'
+        IMAGE_TAG = 'latest' // 또는 다른 Harbor에 이미 존재하는 태그
     }
 
     stages {
@@ -13,11 +19,12 @@ pipeline {
             }
         }
 
-        stage('Build image') {
+    stages {
+        stage('Pull image from Harbor') {
             steps {
                 script {
-                    def app = docker.build("${IMAGE_REGISTRY_ACCOUNT}/${IMAGE_NAME}")
-                    // app 변수를 이 스크립트 내에서 사용 가능하도록 수정
+                    // Harbor 레지스트리에서 이미지를 가져옴
+                    docker.image("${HARBOR_REGISTRY}/${HARBOR_PROJECT}/${IMAGE_NAME}:${IMAGE_TAG}").pull()
                 }
             }
         }
