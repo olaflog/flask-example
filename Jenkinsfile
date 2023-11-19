@@ -43,12 +43,12 @@ pipeline {
                         rm -rf flask-example-apps
                         git clone -b main https://github.com/olaflog/flask-example-apps.git
                         cd flask-example-apps/flask-example-deploy
-                        sed -i 's|image:.*|image: ${IMAGE_REGISTRY_ACCOUNT}/${IMAGE_NAME}:${env.BUILD_NUMBER}|g' deployment.yaml
+                        sed -i 's|image:.*|image: ${IMAGE_REGISTRY_ACCOUNT}/${IMAGE_NAME}:${IMAGE_TAG}|g' deployment.yaml
                         git add deployment.yaml
                         git config --global user.name olaflog
                         git config --global user.email olaflog@elsa.anna
                         git commit -m "Jenkins Build Number - ${IMAGE_TAG}"
-                        git push origin main
+                        git push origin main`
                     '''
                 }
             }
