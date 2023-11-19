@@ -16,7 +16,7 @@ pipeline {
         stage('Build image') {
             steps {
                 script {
-                    def app = docker.build("${IMAGE_REGISTRY_ACCOUNT}/${IMAGE_NAME}")
+                       app = docker.build("${IMAGE_REGISTRY_ACCOUNT}/${IMAGE_NAME}")
                     // app 변수를 이 스크립트 내에서 사용 가능하도록 수정
                 }
             }
