@@ -5,7 +5,7 @@ pipeline {
         GITHUB_CREDENTIALS = credentials('github-jenkins')
         IMAGE_REGISTRY_ACCOUNT = "ec2-13-124-102-170.ap-northeast-2.compute.amazonaws.com/fiscicdlab"
         IMAGE_NAME = "flask-example"
-        IMAGE_TAG = "r20231120-014" // rYYYYMMDD-BuildNumber
+        IMAGE_TAG = "r20231120-015" // rYYYYMMDD-BuildNumber
     }
 
     stages {
@@ -29,15 +29,8 @@ pipeline {
                     docker.withRegistry('https://ec2-13-124-102-170.ap-northeast-2.compute.amazonaws.com/', 'harbor-reg') {
                         app.push("${IMAGE_TAG}")
                         app.push("latest")
+                    sleep(time: 20, unit: 'SECONDS')
                     }
-                }
-            }
-        }
-
-        stage('Delay for 30 seconds') {
-            steps {
-                script {
-                    sleep(time: 30, unit: 'SECONDS')
                 }
             }
         }
