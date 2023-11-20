@@ -2,11 +2,10 @@ pipeline {
     agent any
 
     environment {
-        GITHUB_CREDENTIALS = credentials('github-jenkins') // 'github-credentials-id'에는 위에서 생성한 자격 증명 ID를 입력합니다.
+        GITHUB_CREDENTIALS = credentials('github-jenkins')
         IMAGE_REGISTRY_ACCOUNT = "ec2-13-124-102-170.ap-northeast-2.compute.amazonaws.com/fiscicdlab"
         IMAGE_NAME = "flask-example"
         IMAGE_TAG = "r20231120-012" // rYYYYMMDD-BuildNumber
-
     }
 
     stages {
@@ -31,6 +30,14 @@ pipeline {
                         app.push("${IMAGE_TAG}")
                         app.push("latest")
                     }
+                }
+            }
+        }
+
+        stage('Delay for 30 seconds') {
+            steps {
+                script {
+                    sleep(time: 30, unit: 'SECONDS')
                 }
             }
         }
