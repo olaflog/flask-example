@@ -7,7 +7,7 @@ pipeline {
         IMAGE_NAME = "flask-example"
         IMAGE_TAG = "r20231120-021" // rYYYYMMDD-BuildNumber
     }
-
+ 
     stages {
         stage('Clone repository') {
             steps {
