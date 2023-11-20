@@ -5,7 +5,7 @@ pipeline {
         GITHUB_CREDENTIALS = credentials('github-jenkins')
         IMAGE_REGISTRY_ACCOUNT = "ec2-13-124-102-170.ap-northeast-2.compute.amazonaws.com/fiscicdlab"
         IMAGE_NAME = "flask-example"
-        IMAGE_TAG = "r20231120-017" // rYYYYMMDD-BuildNumber
+        IMAGE_TAG = "r20231120-018" // rYYYYMMDD-BuildNumber
     }
 
     stages {
@@ -47,7 +47,7 @@ pipeline {
                             git add deployment.yaml
                             git config --global user.name olaflog
                             git config --global user.email olaflog@elsa.anna
-                            git commit -m "Jenkins Build Number - ${IMAGE_TAG}"
+                            git commit -m "Image Tag - ${IMAGE_TAG}"
                             git push https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/olaflog/flask-example-apps.git
                         '''
                     }
