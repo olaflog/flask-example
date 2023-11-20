@@ -5,7 +5,7 @@ pipeline {
         GITHUB_CREDENTIALS = credentials('github-jenkins')
         IMAGE_REGISTRY_ACCOUNT = "ec2-13-124-102-170.ap-northeast-2.compute.amazonaws.com/fiscicdlab"
         IMAGE_NAME = "flask-example"
-        IMAGE_TAG = "r20231120-019" // rYYYYMMDD-BuildNumber
+        IMAGE_TAG = "r20231120-020" // rYYYYMMDD-BuildNumber
     }
 
     stages {
