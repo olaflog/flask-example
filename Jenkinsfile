@@ -5,7 +5,7 @@ pipeline {
         GITHUB_CREDENTIALS = credentials('github-jenkins') // 'github-credentials-id'에는 위에서 생성한 자격 증명 ID를 입력합니다.
         IMAGE_REGISTRY_ACCOUNT = "ec2-13-124-102-170.ap-northeast-2.compute.amazonaws.com/fiscicdlab"
         IMAGE_NAME = "flask-example"
-        IMAGE_TAG = "r20231120-010" // rYYYYMMDD-BuildNumber
+        IMAGE_TAG = "r20231120-011" // rYYYYMMDD-BuildNumber
 
     }
 
@@ -53,15 +53,6 @@ pipeline {
                     }
                 }
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Build and deployment successful!'
-        }
-        failure {
-            echo 'Build or deployment failed!'
         }
     }
 }
